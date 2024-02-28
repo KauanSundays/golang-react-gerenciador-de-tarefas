@@ -13,4 +13,20 @@ class Tarefas extends Component {
             items:[],
         };
     }
+    componentDidMount() {
+        this.getTasks();
+    }
+    render() {
+        return (
+            <div>
+                <div className="row">
+                 <Header className = "header" as="h2" color="yewllow">
+                    Tarefas
+                 </Header>
+                </div>    
+            </div>
+        );
+    }
 } 
+
+export default Tarefas;
