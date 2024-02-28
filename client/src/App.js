@@ -6,7 +6,9 @@ import Tarefas from "/.Tarefas";
 function App() {
   return (
     <div>
-
+      <Container className="main">
+        <Tarefas />
+      </Container>
     </div>
   )
 }
