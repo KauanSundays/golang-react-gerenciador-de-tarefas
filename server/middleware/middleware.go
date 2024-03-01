@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive" // Importação do pacote para trabalhar com tipos BSON no MongoDB
 	"go.mongodb.org/mongo-driver/bson/mongo"
