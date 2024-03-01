@@ -15,7 +15,19 @@ import (
 	"go.mongodb.org/mongo-driver/bson/mongo/options"
 )
 
+var collection *mongo.Collection
 
+func init() {
+	loadTheEnv()
+	createDBInstance()
+}
+
+func loadTheEnv(){
+	err := godotenv.Load(".env")
+	if err!=nil{
+		log.Fatal("Error loading the .env dile")
+	}
+}
 
 func GetAllTasks(w http.ResponseWriter, r *http.Request) {
 
