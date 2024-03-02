@@ -33,6 +33,17 @@ func createDBInstance() {
 	connectionString := os.Getenv("DB_URI")
 	dbName := os.Getenv("DB_NAME")
 	collName := os.Getenv("DB_COLLECTION_NAME")
+
+	clientOptions := options.Client().ApplyURI(connectionString)
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("connected to mongodb")
+
+	collection = client.Database(dbname),Collection(collName)
 }
 
 func GetAllTasks(w http.ResponseWriter, r *http.Request) {
