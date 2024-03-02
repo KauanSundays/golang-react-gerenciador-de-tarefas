@@ -29,6 +29,12 @@ func loadTheEnv(){
 	}
 }
 
+func createDBInstance() {
+	connectionString := os.Getenv("DB_URI")
+	dbName := os.Getenv("DB_NAME")
+	collName := os.Getenv("DB_COLLECTION_NAME")
+}
+
 func GetAllTasks(w http.ResponseWriter, r *http.Request) {
 
 }
