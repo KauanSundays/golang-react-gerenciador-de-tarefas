@@ -47,7 +47,10 @@ func createDBInstance() {
 }
 
 func GetAllTasks(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	payload := getAllTasks()
+	json.NewEncoder(w).Encode(payload)
 }
 
 func CreateTask() {
