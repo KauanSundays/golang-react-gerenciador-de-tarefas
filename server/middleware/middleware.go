@@ -16,39 +16,39 @@ import (
 var collection *mongo.Collection
 
 func init() {
-	loadTheEnv()
-	createDBInstance()
+	loadTheEnv() // Inicializa o carregamento das variáveis de ambiente
+	createDBInstance() // Inicializa a instância do banco de dados (ctrl+click)
 }
 
-func loadTheEnv() { //carregar variaveis de ambiente do .env
+func loadTheEnv() { // Carregar as variáveis de ambiente do arquivo .env
 	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatal("Error loading the .env dile") // se ocorrer erro ele mostra na tela
+		log.Fatal("Error loading the .env dile") // Encerra o programa se ocorrer um erro ao carregar o arquivo .env
 	}
 }
 
 func createDBInstance() {
-	connectionString := os.Getenv("DB_URI")
-	dbName := os.Getenv("DB_NAME")
-	collName := os.Getenv("DB_COLLECTION_NAME")
+	connectionString := os.Getenv("DB_URI") // Obtém a URI do banco de dados do ambiente
+	dbName := os.Getenv("DB_NAME") // Obtém o nome do banco de dados do ambiente
+	collName := os.Getenv("DB_COLLECTION_NAME") // Obtém o nome da collection
 
-	clientOptions := options.Client().ApplyURI(connectionString)
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+	clientOptions := options.Client().ApplyURI(connectionString) // Define as opções do cliente com a URI do banco de dados
+	client, err := mongo.Connect(context.TODO(), clientOptions) // Conecta ao banco de dados MongoDB
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err) // Encerra o programa se ocorrer um erro na conexão
 	}
 
-	fmt.Println("connected to mongodb")
+	fmt.Println("connected to mongodb") // deu certo
 
-	collection = client.Database(dbname), Collection(collName)
+	collection = client.Database(dbname), Collection(collName) // Define a coleção global para interagir com o banco de dados
 }
 
 func GetAllTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	payload := getAllTasks()
-	json.NewEncoder(w).Encode(payload)
+	payload := getAllTasks() // Obtém todas as tarefas do banco de dados
+	json.NewEncoder(w).Encode(payload) // Codifica as tarefas em JSON e as envia como resposta
 }
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {
@@ -56,11 +56,10 @@ func CreateTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	var task models.Tarefas
-	json.NewEncoder(r.Body).Decode(&task)
-	insertOneTask(task)
-	json.NewEncoder(w).Encode(task)
-
+	var task models.Tarefas // Declara uma variável para armazenar a nova tarefa
+	json.NewEncoder(r.Body).Decode(&task) // Decodifica o corpo da solicitação JSON para obter os dados da tarefa
+	insertOneTask(task) // Insere a nova tarefa no banco de dados
+	json.NewEncoder(w).Encode(task) // Codifica a tarefa em JSON e a envia como resposta
 }
 
 func TaskComplete(w http.ResponseWriter, r *http.Request) {
@@ -72,17 +71,16 @@ func TaskComplete(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	TaskComplete(params["id"])
 	json.NewEncoder(w).Encode(params["id"])
-
 }
 
 func UndoTask() {
-
+	// desfazer uma tarefa
 }
 
 func DeleteTask() {
-
+	//  excluir uma tarefa
 }
 
 func deleteAllTasks() {
-
+	// excluir todas as tarefas
 }
