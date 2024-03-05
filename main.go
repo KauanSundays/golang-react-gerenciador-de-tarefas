@@ -1,14 +1,15 @@
-package main 
-import(
-	"fmt",
-	"log",
+package main
+
+import (
+	"fmt"
+	"log"
 	"net/http"
-	"./server/router"
+	"golang-react-gerenciador-de-tarefas/server/router"
 )
 
-func main(){
+func main() {
 	r := router.Router()
 	fmt.Println("Starting the server on port 9000...")
 
-	log.Fatal(http.ListenAndServe(":9000, r"))
+	log.Fatal(http.ListenAndServe(":9000", r))
 }
