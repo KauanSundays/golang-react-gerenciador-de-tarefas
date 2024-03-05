@@ -89,8 +89,37 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	params := mux.Vars(r)
+	deleteOneTask(params["id"])
 }
 
-func deleteAllTasks() {
-	// excluir todas as tarefas
+func DeleteAllTasks() {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	count := deleteAllTasks()
+	json.NewEncoder(w).Encode(params["id"])
+}
+
+func getAllTasks() []primitive.M{
+	cur, err := collection.Find(context.Background())
+
+	if err!=nil {
+		log.Fatal(err)
+	}
+
+	var results []primitive.Methods
+	for cur.Next(context.Background()) {
+		var result bson.M
+		cur.Decode(&result)
+		if e !=nil{
+			log.Fatal(e)
+		}
+		results = append(results, result)
+	}
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+	cur.Close(context.Background())
+	return results[:]
 }
