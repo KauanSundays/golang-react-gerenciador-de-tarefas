@@ -16,6 +16,11 @@ class Tarefas extends Component {
     componentDidMount() {
         this.getTasks();
     }
+    onChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value,
+        })
+    }
     render() {
         return (
             <div>
@@ -25,10 +30,19 @@ class Tarefas extends Component {
                  </Header>
                 </div>   
                 <div className="row">
-                    <Form onSubmit={}>
-
+                    <Form onSubmit={this.onChange}
+                    value={this.state.task}
+                    fluid
+                    placeholder="Create Task"
+                    >
+                    {/* Botão Criar tarefa */}
                     </Form>
                 </div> 
+                <div className="row">
+                    <Card.Group>
+                        {this.state.items}
+                    </Card.Group>
+                </div>
             </div>
         );
     }
