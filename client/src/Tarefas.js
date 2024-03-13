@@ -77,6 +77,20 @@ class Tarefas extends Component {
         });
     };
 
+    updateTask = (id) => {
+        axios
+            // envio de solicitacao put
+            .put(endpoint + "/api/task/" + id, { // id da tarefa a ser atualizada
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+            .then((res) => {
+                console.log(res);
+                this.getTask();
+            });
+    };
+
     render() {
         return (
             <div>
