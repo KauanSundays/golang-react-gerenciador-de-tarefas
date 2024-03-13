@@ -94,6 +94,19 @@ class Tarefas extends Component {
             });
     };
 
+    undoTask = (id) => {// Envia uma requisição PUT para desfazer uma tarefa específica no servidor
+        axios
+            .put(endpoint + "/api/undoTask/" + id, { // URL completa para desfazer a tarefa com o ID fornecido
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+            .then((res) => { // Ação a ser executada após a conclusão da requisição
+                console.log(res);
+                this.getTask(); // Após DESFAZER a tarefa com sucesso, atualiza a lista de tarefas exibida
+            });
+    };
+
     render() {
         return (
             <div>
