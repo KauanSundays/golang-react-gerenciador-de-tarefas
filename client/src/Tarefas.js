@@ -23,44 +23,47 @@ class Tarefas extends Component {
     }
 
     getTask = () => {
+        // Requisição GET para o endpoint especificado para obter a lista de tarefas
         axios.get(endpoint + "/api/task").then((res) => {
-            if (res.data) {
+            if (res.data) { //se a resposta tiver dados então...
+                // Se houver dados, atualiza o estado do componente com base nos dados recebidos
                 this.setState({
                     items: res.data.map((item) => {
-                        let color = "yellow";
+                        let color = "yellow";   // Define a cor inicial do cartão como amarelo
                         let style = {
-                            wordWrap: "break-word"
-                        }
-
-                        if (item.status) {
+                            wordWrap: "break-word" // Define o estilo do cartão
+                        } 
+                        if (item.status) { // Verifica o status da tarefa  e muda a cor do cartão
                             color = "green";
                             style["textDecorationLine"] = "line-through";
                         }
-
+    
+                        // Retorna um elemento de cartão para cada item de tarefa, com base nos dados recebidos
                         return (
                             <Card key={item._id} color={color} fluid>
                                 <Card.Content>
                                     <Card.Header textAlign="left">
                                         <div style={style}>{item.task}</div>
                                     </Card.Header>
-
+    
+                                    {/* Botões de ação para concluir, desfazer e excluir a tarefa */}
                                     <Card.Meta textAlign="right">
                                         <Icon
                                             name="check circle"
                                             color="green"
-                                            onClick={() => this.updateTask(item._id)}
+                                            onClick={() => this.updateTask(item._id)} // Chama a função para marcar a tarefa como concluída
                                         />
                                         <span style={{ paddingRight: 10 }}>Done</span>
                                         <Icon
                                             name="undo"
                                             color="yellow"
-                                            onClick={() => this.undoTask(item._id)}
+                                            onClick={() => this.undoTask(item._id)} // Chama a função para desfazer a conclusão da tarefa
                                         />
                                         <span style={{ paddingRight: 10 }}>Undo</span>
                                         <Icon
                                             name="delete"
                                             color="red"
-                                            onClick={() => this.deleteTask(item._id)}
+                                            onClick={() => this.deleteTask(item._id)} // Chama a função para excluir a tarefa
                                         />
                                         <span style={{ paddingRight: 10 }}>Delete</span>
                                     </Card.Meta>
@@ -70,12 +73,12 @@ class Tarefas extends Component {
                     })
                 })
             } else {
-                this.setState({
-                    items: [],
+                this.setState({ 
+                    items: [], // Se não houver dados, define o estado do componente como uma lista vazia
                 });
             }
         });
-    };
+    };    
 
     updateTask = (id) => {
         axios
