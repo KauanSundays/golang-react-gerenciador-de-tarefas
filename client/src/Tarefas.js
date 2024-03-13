@@ -22,6 +22,33 @@ class Tarefas extends Component {
         })
     }
 
+    onSubmit = () => {
+        let { task } = this.state; // Obtém o valor do estado 'task'
+    
+        if (task) { // Verifica se 'task' não está vazia
+            axios
+                .post(
+                    endpoint + "/api/task", // URL completa para criar uma nova tarefa
+                    {
+                        task, // Envia o conteúdo da tarefa
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                    }
+                )
+                .then((res) => { // Ação a ser executada após a conclusão da requisição
+                    this.getTask(); // Após adicionar a tarefa com sucesso, atualiza a lista de tarefas exibida
+                    this.setState({
+                        task: "", // Limpa o campo de entrada de tarefas
+                    });
+                    console.log(res);
+                });
+        }
+    };
+    
+
     getTask = () => {
         // Requisição GET para o endpoint especificado para obter a lista de tarefas
         axios.get(endpoint + "/api/task").then((res) => {
@@ -32,12 +59,12 @@ class Tarefas extends Component {
                         let color = "yellow";   // Define a cor inicial do cartão como amarelo
                         let style = {
                             wordWrap: "break-word" // Define o estilo do cartão
-                        } 
+                        }
                         if (item.status) { // Verifica o status da tarefa  e muda a cor do cartão
                             color = "green";
                             style["textDecorationLine"] = "line-through";
                         }
-    
+
                         // Retorna um elemento de cartão para cada item de tarefa, com base nos dados recebidos
                         return (
                             <Card key={item._id} color={color} fluid>
@@ -45,7 +72,7 @@ class Tarefas extends Component {
                                     <Card.Header textAlign="left">
                                         <div style={style}>{item.task}</div>
                                     </Card.Header>
-    
+
                                     {/* Botões de ação para concluir, desfazer e excluir a tarefa */}
                                     <Card.Meta textAlign="right">
                                         <Icon
@@ -73,12 +100,12 @@ class Tarefas extends Component {
                     })
                 })
             } else {
-                this.setState({ 
+                this.setState({
                     items: [], // Se não houver dados, define o estado do componente como uma lista vazia
                 });
             }
         });
-    };    
+    };
 
     updateTask = (id) => {
         axios
@@ -106,7 +133,7 @@ class Tarefas extends Component {
                 this.getTask(); // Após DESFAZER a tarefa com sucesso, atualiza a lista de tarefas exibida
             });
     };
-    
+
     deleteTask = (id) => { // Requisição DELETE para excluir uma tarefa específica no servidor
         axios
             .delete(endpoint + "/api/deleteTask/" + id, { // URL completa para excluir a tarefa com o ID fornecido
@@ -118,7 +145,7 @@ class Tarefas extends Component {
                 console.log(res);
                 this.getTask(); // Após DELETAR a tarefa com sucesso, atualiza a lista de tarefas exibida
             });
-    };    
+    };
 
     render() {
         return (
