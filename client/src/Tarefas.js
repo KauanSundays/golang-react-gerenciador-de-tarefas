@@ -23,14 +23,14 @@ class Tarefas extends Component {
     }
 
     onSubmit = () => {
-        let { task } = this.state; // Obtém o valor do estado 'task'
-    
-        if (task) { // Verifica se 'task' não está vazia
+        let { task } = this.state;
+        // console.log("pRINTING task", this.state.task);
+        if (task) {
             axios
                 .post(
-                    endpoint + "/api/task", // URL completa para criar uma nova tarefa
+                    endpoint + "/api/task",
                     {
-                        task, // Envia o conteúdo da tarefa
+                        task,
                     },
                     {
                         headers: {
@@ -38,16 +38,15 @@ class Tarefas extends Component {
                         },
                     }
                 )
-                .then((res) => { // Ação a ser executada após a conclusão da requisição
-                    this.getTask(); // Após adicionar a tarefa com sucesso, atualiza a lista de tarefas exibida
+                .then((res) => {
+                    this.getTask();
                     this.setState({
-                        task: "", // Limpa o campo de entrada de tarefas
+                        task: "",
                     });
                     console.log(res);
                 });
         }
     };
-    
 
     getTask = () => {
         // Requisição GET para o endpoint especificado para obter a lista de tarefas
