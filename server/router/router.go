@@ -1,8 +1,8 @@
 package router
 
 import (
-	"./middleware"
-	"github.com/gorilla/mux" //mux ajuda a fazer o roteamento
+   "server/middleware";
+   "github.com/gorilla/mux";
 )
 
 func Router() *mux.Router {
