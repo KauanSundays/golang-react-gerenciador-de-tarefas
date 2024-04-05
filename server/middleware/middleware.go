@@ -71,7 +71,7 @@ func createDBInstance() {
 }
 
 // GetAllTask get all the task route
-func GetAllTask(w http.ResponseWriter, r *http.Request) {
+func GetAllTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	payload := getAllTask()
@@ -84,7 +84,7 @@ func CreateTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	var task models.ToDoList
+	var task models.Tarefas
 	_ = json.NewDecoder(r.Body).Decode(&task)
 	// fmt.Println(task, r.Body)
 	insertOneTask(task)
@@ -131,7 +131,7 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeleteAllTask delete all tasks route
-func DeleteAllTask(w http.ResponseWriter, r *http.Request) {
+func DeleteAllTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	count := deleteAllTask()
@@ -168,7 +168,7 @@ func getAllTask() []primitive.M {
 }
 
 // Insert one task in the DB
-func insertOneTask(task models.ToDoList) {
+func insertOneTask(task models.Tarefas) {
 	insertResult, err := collection.InsertOne(context.Background(), task)
 
 	if err != nil {

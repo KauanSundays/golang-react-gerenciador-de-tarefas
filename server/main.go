@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"golang-react-gerenciador-de-tarefas/server/router"
+	"server/router"
 )
 
 func main() {
