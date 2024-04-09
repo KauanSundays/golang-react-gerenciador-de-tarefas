@@ -131,14 +131,14 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeleteAllTask delete all tasks route
-func DeleteAllTasks(w http.ResponseWriter, r *http.Request) {
+func DeleteAllTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	count := deleteAllTask()
 	json.NewEncoder(w).Encode(count)
 	// json.NewEncoder(w).Encode("Task not found")
-
 }
+
 
 // get all task from the DB and return it
 func getAllTask() []primitive.M {

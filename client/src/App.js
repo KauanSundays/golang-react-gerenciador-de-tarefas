@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import {Container} from "semantic-ui-react";
-import Tarefas from "/.Tarefas";
+import Tarefas from './Tarefas.js';
 
 function App() {
   return (
