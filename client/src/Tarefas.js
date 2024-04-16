@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Card, Header, Form, Input, Icon, Button} from "semantic-ui-react";
+import { Card, Header, Form, Input, Icon, Button } from "semantic-ui-react";
 
 let endpoint = "http://localhost:9000";
 
@@ -25,15 +25,20 @@ class Tarefas extends Component {
     onSubmit = () => {
         let { task } = this.state;
         if (task) {
+            // Criar um objeto com os dados da tarefa
+            const taskData = {
+                task: this.state.task,
+                status: false // Como estamos criando uma nova tarefa, o status será sempre falso inicialmente
+            };
+
+            // Enviar os dados para o backend
             axios
                 .post(
                     endpoint + "/api/task",
-                    {
-                        task,
-                    },
+                    taskData, // Envie o objeto diretamente
                     {
                         headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Content-Type": "application/json", // Usar o tipo de conteúdo application/json
                         },
                     }
                 )
@@ -43,7 +48,7 @@ class Tarefas extends Component {
                         task: "",
                     });
                     console.log(res);
-                });
+                })
         }
     };
 

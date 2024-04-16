@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"go-server/models"
 	"log"
 	"net/http"
 	"os"
-	"server/models"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -39,13 +39,13 @@ func loadTheEnv() {
 func createDBInstance() {
 	// DB connection string
 	connectionString := os.Getenv("DB_URI")
-
+	
 	// Database Name
 	dbName := os.Getenv("DB_NAME")
 
 	// Collection name
 	collName := os.Getenv("DB_COLLECTION_NAME")
-
+	
 	// Set client options
 	clientOptions := options.Client().ApplyURI(connectionString)
 
@@ -71,7 +71,7 @@ func createDBInstance() {
 }
 
 // GetAllTask get all the task route
-func GetAllTasks(w http.ResponseWriter, r *http.Request) {
+func GetAllTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	payload := getAllTask()
@@ -80,16 +80,22 @@ func GetAllTasks(w http.ResponseWriter, r *http.Request) {
 
 // CreateTask create task route
 func CreateTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	var task models.Tarefas
-	_ = json.NewDecoder(r.Body).Decode(&task)
-	// fmt.Println(task, r.Body)
-	insertOneTask(task)
-	json.NewEncoder(w).Encode(task)
+    // Definir cabeçalhos para permitir solicitações CORS
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+    if r.Method == "OPTIONS" {
+        // Responder imediatamente para solicitações OPTIONS
+        return
+    }
+
+    // Defina o tipo de conteúdo do cabeçalho para application/json
+    w.Header().Set("Content-Type", "application/json")
+
+    // Restante do seu código para criar uma tarefa ...
 }
+
 
 // TaskComplete update task route
 func TaskComplete(w http.ResponseWriter, r *http.Request) {
@@ -137,8 +143,8 @@ func DeleteAllTask(w http.ResponseWriter, r *http.Request) {
 	count := deleteAllTask()
 	json.NewEncoder(w).Encode(count)
 	// json.NewEncoder(w).Encode("Task not found")
-}
 
+}
 
 // get all task from the DB and return it
 func getAllTask() []primitive.M {
@@ -168,7 +174,7 @@ func getAllTask() []primitive.M {
 }
 
 // Insert one task in the DB
-func insertOneTask(task models.Tarefas) {
+func insertOneTask(task models.ToDoList) {
 	insertResult, err := collection.InsertOne(context.Background(), task)
 
 	if err != nil {
